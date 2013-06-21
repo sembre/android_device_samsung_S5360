@@ -24,7 +24,7 @@ $(call inherit-product, device/samsung/totoro/device_totoro.mk)
 PRODUCT_NAME := cm_totoro
 PRODUCT_BRAND := samsung
 PRODUCT_DEVICE := totoro
-PRODUCT_MODEL := GT-s5360
+PRODUCT_MODEL := GT-S5360
 PRODUCT_MANUFACTURER := samsung
 PRODUCT_CHARACTERISTICS := phone
 
@@ -36,4 +36,4 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 
 # Release name and versioning
 PRODUCT_RELEASE_NAME := totoro
-PRODUCT_VERSION_DEVICE_SPECIFIC :=
+PRODUCT_VERSION_DEVICE_SPECIFIC := SGY
