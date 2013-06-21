@@ -1,4 +1,3 @@
-android_device_samsung_S5360
-============================
+Cyanogenmod Project 
 
-Device tree for CM10
+Cyanogenmod 10 Android 4.1.2 For SGY
