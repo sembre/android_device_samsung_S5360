@@ -65,7 +65,7 @@ BOARD_PAGE_SIZE := 0x00001000
 BOARD_KERNEL_CMDLINE := 
 
 # Recovery
-TARGET_PREBUILT_KERNEL := device/samsung/totoro/kernel
+#TARGET_PREBUILT_KERNEL := device/samsung/totoro/kernel
 BOARD_BML_RECOVERY := /dev/block/bml8
 TARGET_BOOTLOADER_BOARD_NAME := totoro
 BOARD_RECOVERY_HANDLES_MOUNT := true
@@ -77,9 +77,8 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 241172480
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 206831616
 BOARD_FLASH_BLOCK_SIZE := 4096
 TARGET_RECOVERY_INITRC := device/samsung/totoro/recovery.rc
-#TARGET_KERNEL_SOURCE := kernel/samsung/gy/common
-#TARGET_KERNEL_CONFIG := bcm21553_totoro_05_cm9_defconfig
-#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
+TARGET_KERNEL_SOURCE := kernel/samsung/totoro/common
+TARGET_KERNEL_CONFIG := bcm21553_totoro_05_cm9_defconfig
 
 # Browser / Stagefright
 JS_ENGINE := v8
