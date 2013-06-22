@@ -12,24 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# This file is the build configuration for a full Android
-# build for crespo hardware. This cleanly combines a set of
-# device-specific aspects (drivers) with a device-agnostic
-# product configuration (apps).
-#
-
 # Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
-# This is where we'd set a backup provider if we had one
-$(call inherit-product, device/samsung/totoro/device_totoro.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+$(call inherit-product, device/samsung/totoro/totoro.mk)
 
 # Discard inherited values and use our own instead.
-PRODUCT_NAME := generic_totoro
+PRODUCT_NAME := full_totoro
 PRODUCT_DEVICE := totoro
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
 PRODUCT_MODEL := GT-S5360
-
-PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=soju BUILD_ID=GRJ22 BUILD_DISPLAY_ID=GRJ90 BUILD_FINGERPRINT=google/soju/crespo:2.3.4/GRJ22/121341:user/release-keys PRIVATE_BUILD_DESC="soju-user 2.3.4 GRJ22 121341 release-keys"
