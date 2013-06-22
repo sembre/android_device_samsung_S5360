@@ -19,11 +19,14 @@
 #
 
 # Architecture
-TARGET_BOARD_PLATFORM := bcm21553
+TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv6-vfp
 TARGET_CPU_ABI := armeabi-v6l
 TARGET_CPU_ABI2 := armeabi
+
+# Platform
 TARGET_BOOTLOADER_BOARD_NAME := totoro
+TARGET_BOARD_PALTFORM := bcm21553
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
@@ -36,8 +39,8 @@ BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 # Audio
 BOARD_USES_GENERIC_AUDIO := false
-BOARD_USES_ALSA_AUDIO := false
-BUILD_WITH_ALSA_UTILS := false
+BOARD_USES_ALSA_AUDIO := true
+BUILD_WITH_ALSA_UTILS := true
 #OMAP_ENHANCEMENT := true
 #HARDWARE_OMX := false
 
@@ -47,15 +50,15 @@ BOARD_FORCE_RILD_AS_ROOT := true
 BOARD_MOBILEDATA_INTERFACE_NAME := "pdp0"
 
 #camera
-USE_CAMERA_STUB := false
+USE_CAMERA_STUB := true
 BOARD_V4L2_DEVICE := /dev/video2
 BOARD_CAMERA_DEVICE := /dev/video0
 BOARD_USE_JPEG := true
 
-#3D
+# Graphics
 BOARD_EGL_CFG := device/samsung/totoro/prebuilt/lib/egl/egl.cfg
-BOARD_NO_RGBX_8888 := true
-ENABLE_WEBGL := true
+#BOARD_NO_RGBX_8888 := true
+USE_OPENGL_RENDERER := true
 
 # Device related defines
 BOARD_NAND_PAGE_SIZE := 4096 -s 128
@@ -64,39 +67,43 @@ BOARD_KERNEL_PAGESIZE := 4096
 BOARD_PAGE_SIZE := 0x00001000
 BOARD_KERNEL_CMDLINE := 
 
-# Recovery
+# Kernel
+TARGET_KERNEL_SOURCE := kernel/samsung/totoro/common
+TARGET_KERNEL_CONFIG := bcm21553_totoro_05_cm9_defconfig
 #TARGET_PREBUILT_KERNEL := device/samsung/totoro/kernel
+
+# Recovery
 BOARD_BML_RECOVERY := /dev/block/bml8
-TARGET_BOOTLOADER_BOARD_NAME := totoro
 BOARD_RECOVERY_HANDLES_MOUNT := true
 BOARD_HAS_DOWNLOAD_MODE := true
 BOARD_LDPI_RECOVERY := true
+TARGET_RECOVERY_INITRC := device/samsung/totoro/recovery.rc
 
+# Filesystem
 BOARD_BOOTIMAGE_PARTITION_SIZE := 5242880
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 241172480
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 206831616
 BOARD_FLASH_BLOCK_SIZE := 4096
-TARGET_RECOVERY_INITRC := device/samsung/totoro/recovery.rc
-TARGET_KERNEL_SOURCE := kernel/samsung/totoro/common
-TARGET_KERNEL_CONFIG := bcm21553_totoro_05_cm9_defconfig
+
 
 # Browser / Stagefright
-JS_ENGINE := v8
-HTTP := chrome
-WITH_JIT := true
-ENABLE_JSC_JIT := true
+ENABLE_WEBGL := true
 
 #usb
 BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/lm-2/gadget/lun0/file"
 
-# Wifi related defines
+# Wifi
+BOARD_WLAN_DEVICE                := bcmdhd
+BOARD_WLAN_DEVICE_REV            := bcm4330
 WIFI_DRIVER_MODULE_PATH          := "/system/lib/modules/dhd.ko"
 WIFI_DRIVER_FW_PATH_STA          := "/system/etc/firmware/fw_bcm4330_b2.bin"
 WIFI_DRIVER_FW_PATH_AP           := "/system/etc/firmware/fw_bcm4330_apsta_b2.bin"
 WIFI_DRIVER_FW_PATH_P2P          := "/system/etc/firmware/fw_bcm4330_p2p_b2.bin"
-WIFI_DRIVER_MODULE_NAME          := "dhd.ko"
+WIFI_DRIVER_MODULE_NAME          := "dhd"
 WIFI_DRIVER_MODULE_ARG           := "firmware_path=/system/etc/firmware/fw_bcm4330_b2.bin nvram_path=/proc/calibration iface_name=eth0"
+BOARD_LEGACY_NL80211_STA_EVENTS  := true
+BOARD_HAVE_SAMSUNG_WIFI := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
