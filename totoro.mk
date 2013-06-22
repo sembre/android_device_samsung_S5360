@@ -21,8 +21,6 @@ PRODUCT_AAPT_PREF_CONFIG := ldpi
 
 # RIL properties
 PRODUCT_PROPERTY_OVERRIDES += \
-    rild.libargs=-d/dev/smd0 \
-    rild.libpath=/system/lib/libbrcm_ril.so \
     ro.telephony.ril_class=SamsungRIL \
     mobiledata.interfaces=pdp0,eth0,gprs,ppp0 \
     ro.ril.hsxpa=1 \
