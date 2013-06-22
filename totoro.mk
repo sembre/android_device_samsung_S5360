@@ -12,13 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-# Inherit from those products. Most specific first.
-$(call inherit-product, build/target/product/languages_full.mk)
-$(call inherit-product, build/target/product/full_base.mk)
-
 # Add device package overlay
 DEVICE_PACKAGE_OVERLAYS := device/samsung/totoro/overlay
+
+# The device is LDPI
+PRODUCT_AAPT_CONFIG := normal mdpi ldpi
+PRODUCT_AAPT_PREF_CONFIG := ldpi
+
+# RIL properties
+PRODUCT_PROPERTY_OVERRIDES += \
+    rild.libargs=-d/dev/smd0 \
+    rild.libpath=/system/lib/libbrcm_ril.so \
+    ro.telephony.ril_class=SamsungRIL \
+    mobiledata.interfaces=pdp0,eth0,gprs,ppp0 \
+    ro.ril.hsxpa=1 \
+    ro.ril.gprsclass=10 \
+
+# Board-specific init
+PRODUCT_COPY_FILES += \
+    device/samsung/totoro/prebuilt/root/ueventd.gt-s5360.rc:root/ueventd.gt-s5360.rc \
+    device/samsung/totoro/prebuilt/root/init.gt-s5360.rc:root/init.gt-s5360.rc
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -40,9 +53,6 @@ PRODUCT_PACKAGES += \
     libtinyalsa \
     Torch
     
-# LDPI assets
-PRODUCT_AAPT_CONFIG := normal mdpi ldpi
-PRODUCT_AAPT_PREF_CONFIG := ldpi
   
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
@@ -72,10 +82,6 @@ PRODUCT_COPY_FILES += \
     device/samsung/totoro/prebuilt/root/j4fs.ko:root/j4fs.ko \
     device/samsung/totoro/prebuilt/root/sec_param.ko:root/sec_param.ko \
 
-# Board-specific init
-PRODUCT_COPY_FILES += \
-    device/samsung/totoro/prebuilt/root/ueventd.gt-s5360.rc:root/ueventd.gt-s5360.rc \
-    device/samsung/totoro/prebuilt/root/init.gt-s5360.rc:root/init.gt-s5360.rc
 
 # Audio
 #PRODUCT_PACKAGES += \
@@ -84,8 +90,6 @@ PRODUCT_COPY_FILES += \
 # Touchscreen
 PRODUCT_COPY_FILES += \
     device/samsung/totoro/prebuilt/usr/idc/sec_touchscreen.idc:system/usr/idc/sec_touchscreen.idc
-
-$(call inherit-product, device/common/gps/gps_eu_supl.mk)
 
 $(call inherit-product-if-exists, hardware/broadcom/wlan/bcmdhd/firmware/bcm4330/device-bcm.mk)
 
@@ -97,49 +101,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 device/samsung/totoro/prebuilt/bin/get_macaddrs:/system/bin/get_macaddrs \
 
-# RIL properties
-PRODUCT_PROPERTY_OVERRIDES += \
-    rild.libargs=-d/dev/smd0 \
-    rild.libpath=/system/lib/libbrcm_ril.so \
-    ro.telephony.ril_class=SamsungRIL \
-    mobiledata.interfaces=pdp0,eth0,gprs,ppp0 \
-    ro.ril.hsxpa=1 \
-    ro.ril.gprsclass=10 \
-    
-
 # Performance & graphics properties
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.heapsize=32m \
-    debug.camcorder.disablemeta=1 \
-    debug.enabletr=false \
-    hwui.render_dirty_regions=false \
-    persist.sys.purgeable_assets=1 \
-    persist.sys.ui.hw=1 \
-    persist.sys.use_dithering=1 \
-    ro.hwui.texture_cache_size=12 \
-    ro.hwui.layer_cache_size=8 \
-    ro.hwui.gradient_cache_size=0.25 \
-    ro.hwui.path_cache_size=2 \
-    ro.hwui.shape_cache_size=0.5 \
-    ro.hwui.drop_shadow_cache_size=1 \
-    ro.hwui.fbo_cache_size=8 \
-    ro.media.dec.jpeg.memcap=20000000 \
     ro.opengles.version=131072 \
     ro.sf.lcd_density=120 \
-    ro.vold.umsdirtyratio=20
 
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dexopt-data-only=1
-
-
-# Extended JNI checks
-# The extended JNI checks will cause the system to run more slowly, but they can spot a variety of nasty bugs 
-# before they have a chance to cause problems.
-# Default=true for development builds, set by android buildsystem.
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.kernel.android.checkjni=0 \
-    dalvik.vm.checkjni=false
+$(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -156,18 +123,9 @@ PRODUCT_COPY_FILES += \
 
 # NEW ICS properties (may need verification/testing)
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.config_datause_iface=pdp0 \
-    ro.secure=0 \
-    ro.telephony.ril.v3=icccardstatus,datacall,signalstrength,facilitylock \
-    debug.gr.swapinterval=0 \
-    persist.sys.usb.config=mass_storage,adb \
-    sys.usb.config=mass_storage,adb \
-    persist.service.adb.enable=1
-    
-#$(call inherit-product, frameworks/base/build/phone-hdpi-512-dalvik-heap.mk)
+    persist.sys.usb.config=mass_storage,adb
 
-# See comment at the top of this file. This is where the other
-# half of the device-specific product definition file takes care
-# of the aspects that require proprietary drivers that aren't
-# commonly available
-$(call inherit-product-if-exists, vendor/samsung/totoro/totoro-vendor.mk)
+$(call inherit-product, device/common/gps/gps_eu_supl.mk)
+
+# Use the non-open-source parts, if they're present
+include vendor/samsung/totoro/totoro-vendor.mk
